@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    container_name: infra-job-killer
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./deployments:/app/deployments
+    environment:
+      - LEPTOS_SITE_ADDR=0.0.0.0:3000
+      - RUST_LOG=info
+    restart: unless-stopped

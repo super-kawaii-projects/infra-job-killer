@@ -1,0 +1,17 @@
+target/
+**/*.rs.bk
+pkg/
+deployments/
+data/
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+*.log

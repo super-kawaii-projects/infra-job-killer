@@ -1,0 +1,43 @@
+[package]
+name = "platform-made-easy"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+shared = { path = "../shared" }
+leptos = { version = "0.6", features = [] }
+leptos_meta = { version = "0.6", features = [] }
+leptos_router = { version = "0.6", features = [] }
+leptos_actix = { version = "0.6", optional = true }
+actix-web = { version = "4", optional = true, features = ["macros"] }
+actix-files = { version = "0.6", optional = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+wasm-bindgen = { version = "0.2", optional = true }
+web-sys = { version = "0.3", optional = true, features = ["HtmlInputElement"] }
+console_error_panic_hook = { version = "0.1", optional = true }
+tokio = { version = "1", features = ["full"], optional = true }
+log = "0.4"
+
+[features]
+default = []
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "wasm-bindgen", "web-sys", "console_error_panic_hook"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "leptos_actix", "actix-web", "actix-files", "tokio"]
+
+[package.metadata.leptos]
+output-name = "platform-made-easy"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+style-file = "style/main.css"
+assets-dir = "public"
+site-addr = "0.0.0.0:3000"
+reload-port = 3001
+bin-features = ["ssr"]
+bin-default-features = false
+lib-features = ["hydrate"]
+lib-default-features = false
