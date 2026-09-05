@@ -63,11 +63,11 @@ pub async fn get_build(id: String) -> Result<Build, ServerFnError> {
     use crate::server::state::get_state;
     use uuid::Uuid;
     let build_id = Uuid::parse_str(&id)
-        .map_err(|_| ServerFnError::ServerError("Invalid ID".into()))?;
+        .map_err(|_| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Invalid ID".into()))?;
     let state = get_state();
     let builds = state.builds.lock().unwrap();
     builds.iter().find(|b| b.id == build_id).cloned()
-        .ok_or_else(|| ServerFnError::ServerError("Not found".into()))
+        .ok_or_else(|| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Not found".into()))
 }
 
 #[server(RunTerraform, "/api")]
@@ -78,7 +78,7 @@ pub async fn run_terraform(build_id: String, action: TerraformAction) -> Result<
     use std::path::PathBuf;
 
     let id = Uuid::parse_str(&build_id)
-        .map_err(|_| ServerFnError::ServerError("Invalid ID".into()))?;
+        .map_err(|_| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Invalid ID".into()))?;
 
     let state = get_state();
 
@@ -86,7 +86,7 @@ pub async fn run_terraform(build_id: String, action: TerraformAction) -> Result<
     let build = {
         let builds = state.builds.lock().unwrap();
         builds.iter().find(|b| b.id == id).cloned()
-            .ok_or_else(|| ServerFnError::ServerError("Not found".into()))?
+            .ok_or_else(|| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Not found".into()))?
     };
 
     // Update status
@@ -168,12 +168,12 @@ pub async fn get_generated_files(build_id: String) -> Result<Vec<(String, String
     use std::path::PathBuf;
 
     let id = Uuid::parse_str(&build_id)
-        .map_err(|_| ServerFnError::ServerError("Invalid ID".into()))?;
+        .map_err(|_| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Invalid ID".into()))?;
 
     let state = crate::server::state::get_state();
     let builds = state.builds.lock().unwrap();
     let build = builds.iter().find(|b| b.id == id)
-        .ok_or_else(|| ServerFnError::ServerError("Not found".into()))?;
+        .ok_or_else(|| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Not found".into()))?;
 
     let work_dir = PathBuf::from("deployments")
         .join(build.build_type.to_string().to_lowercase())
@@ -202,12 +202,12 @@ pub async fn push_to_git(build_id: String, repo_url: String, branch: String) -> 
     use tokio::process::Command;
 
     let id = Uuid::parse_str(&build_id)
-        .map_err(|_| ServerFnError::ServerError("Invalid ID".into()))?;
+        .map_err(|_| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Invalid ID".into()))?;
 
     let state = crate::server::state::get_state();
     let builds = state.builds.lock().unwrap();
     let build = builds.iter().find(|b| b.id == id)
-        .ok_or_else(|| ServerFnError::ServerError("Not found".into()))?;
+        .ok_or_else(|| ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError("Not found".into()))?;
 
     let work_dir = PathBuf::from("deployments")
         .join(build.build_type.to_string().to_lowercase())
@@ -226,8 +226,8 @@ pub async fn push_to_git(build_id: String, repo_url: String, branch: String) -> 
 
     match push {
         Ok(out) if out.status.success() => Ok("Pushed successfully".into()),
-        Ok(out) => Err(ServerFnError::ServerError(String::from_utf8_lossy(&out.stderr).into())),
-        Err(e) => Err(ServerFnError::ServerError(format!("git push failed: {}", e))),
+        Ok(out) => Err(ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError(String::from_utf8_lossy(&out.stderr).into())),
+        Err(e) => Err(ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError(format!("git push failed: {}", e))),
     }
 }
 

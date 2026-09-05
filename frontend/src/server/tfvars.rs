@@ -5,18 +5,18 @@ use std::path::PathBuf;
 pub fn write_build_files(build: &Build) -> Result<(), leptos::ServerFnError> {
     let dir = get_build_dir(build);
     std::fs::create_dir_all(&dir)
-        .map_err(|e| leptos::ServerFnError::ServerError(format!("mkdir failed: {}", e)))?;
+        .map_err(|e| leptos::ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError(format!("mkdir failed: {}", e)))?;
 
     let main_tf = generate_main_tf(build);
     let tfvars = generate_tfvars(build);
     let variables_tf = generate_variables_tf(build);
 
     std::fs::write(dir.join("main.tf"), &main_tf)
-        .map_err(|e| leptos::ServerFnError::ServerError(format!("write: {}", e)))?;
+        .map_err(|e| leptos::ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError(format!("write: {}", e)))?;
     std::fs::write(dir.join("terraform.tfvars"), &tfvars)
-        .map_err(|e| leptos::ServerFnError::ServerError(format!("write: {}", e)))?;
+        .map_err(|e| leptos::ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError(format!("write: {}", e)))?;
     std::fs::write(dir.join("variables.tf"), &variables_tf)
-        .map_err(|e| leptos::ServerFnError::ServerError(format!("write: {}", e)))?;
+        .map_err(|e| leptos::ServerFnError::<leptos::server_fn::error::NoCustomError>::ServerError(format!("write: {}", e)))?;
 
     Ok(())
 }
