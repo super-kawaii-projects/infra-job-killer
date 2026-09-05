@@ -32,7 +32,6 @@ WORKDIR /app
 
 COPY --from=builder --chown=infra:infra /app/target/release/platform-made-easy ./
 COPY --from=builder --chown=infra:infra /app/target/site ./target/site
-COPY --chown=infra:infra terraform/ ./terraform/
 
 VOLUME ["/app/data", "/app/deployments"]
 EXPOSE 3000
