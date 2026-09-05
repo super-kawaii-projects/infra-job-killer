@@ -1,5 +1,26 @@
 use crate::models::*;
 
+/// Format a dollar amount with comma thousands separators, no decimals.
+/// e.g. 1234567.0 -> "1,234,567"
+pub fn format_money(amount: f64) -> String {
+    let rounded = amount.round() as i64;
+    let negative = rounded < 0;
+    let digits = rounded.abs().to_string();
+    let mut out = String::new();
+    let len = digits.len();
+    for (idx, ch) in digits.chars().enumerate() {
+        if idx > 0 && (len - idx) % 3 == 0 {
+            out.push(',');
+        }
+        out.push(ch);
+    }
+    if negative {
+        format!("-{}", out)
+    } else {
+        out
+    }
+}
+
 pub fn estimate_vpc_cost(config: &VpcConfig, _region: &str) -> CostEstimate {
     let mut items = Vec::new();
     if config.enable_nat_gateway {

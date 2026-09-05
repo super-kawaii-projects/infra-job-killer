@@ -45,7 +45,7 @@ pub fn VpcBuilderPage() -> impl IntoView {
         }
     });
 
-    let on_submit = move |action: &'static str| {
+    let on_submit = move |_action: &'static str| {
         set_submitting.set(true);
         let nav = navigate.clone();
         let config = VpcConfig {
@@ -172,7 +172,7 @@ pub fn VpcBuilderPage() -> impl IntoView {
                     <div class="action-card">
                         <button class="btn btn-info btn-lg btn-full"
                             disabled=move || submitting.get()
-                            on:click=move |_| on_submit("plan")>
+                            on:click={let f = on_submit.clone(); move |_| f("plan")}>
                             "🔍 Test My Build"
                         </button>
                         <button class="btn btn-primary btn-lg btn-full"

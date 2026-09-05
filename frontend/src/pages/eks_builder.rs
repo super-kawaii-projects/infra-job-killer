@@ -1,7 +1,7 @@
 use leptos::*;
 use leptos_router::*;
 use shared::models::*;
-use shared::cost::estimate_eks_cost;
+use shared::cost::{estimate_eks_cost, format_money};
 use crate::server::create_build;
 
 #[component]
@@ -200,7 +200,7 @@ pub fn EksBuilderPage() -> impl IntoView {
                 <div class="builder-sidebar">
                     <div class="cost-card">
                         <h3>"Estimated Monthly Cost"</h3>
-                        <div class="cost-total">{move || format!("${:,.0}", cost.get().monthly_total)}<span class="cost-period">"/mo"</span></div>
+                        <div class="cost-total">{move || format!("${}", format_money(cost.get().monthly_total))}<span class="cost-period">"/mo"</span></div>
                         <div class="cost-breakdown">
                             {move || cost.get().line_items.iter().map(|item| {
                                 view! {
@@ -214,7 +214,7 @@ pub fn EksBuilderPage() -> impl IntoView {
                     </div>
                     <div class="action-card">
                         <button class="btn btn-info btn-lg btn-full" disabled=move || submitting.get()
-                            on:click=move |_| on_submit("plan")>"🔍 Test My Build"</button>
+                            on:click={let f = on_submit.clone(); move |_| f("plan")}>"🔍 Test My Build"</button>
                         <button class="btn btn-primary btn-lg btn-full" disabled=move || submitting.get()
                             on:click=move |_| on_submit("apply")>"🚀 GENERATE INFRASTRUCTURE"</button>
                     </div>

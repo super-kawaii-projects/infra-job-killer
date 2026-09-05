@@ -1,6 +1,4 @@
 use leptos::*;
-use leptos_router::*;
-
 #[component]
 pub fn SettingsPage() -> impl IntoView {
     view! {

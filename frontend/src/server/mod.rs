@@ -1,6 +1,5 @@
 use leptos::*;
 use shared::models::*;
-use shared::auth::*;
 
 // ─── Build Management ────────────────────────────────────────────────────────
 

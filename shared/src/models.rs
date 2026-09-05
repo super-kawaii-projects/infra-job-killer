@@ -218,7 +218,7 @@ impl Default for EksConfig {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum EksComputeType { ManagedNodeGroups, Karpenter }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct CostEstimate {
     pub monthly_total: f64,
     pub line_items: Vec<CostLineItem>,
@@ -226,7 +226,7 @@ pub struct CostEstimate {
     pub currency: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct CostLineItem {
     pub service: String,
     pub resource: String,
